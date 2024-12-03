@@ -1,0 +1,194 @@
+1. "Hello World" Application
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "Hello, World!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+---------------------------------------------------------------
+
+2. Welcome Web Application
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def welcome():
+    return "Welcome to Google App Engine!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+--------------------------------------------------------------
+3. Temperature Converter Application
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return '''
+        <form action="/convert" method="post">
+            Temperature (°C): <input type="text" name="temp_c">
+            <input type="submit" value="Convert">
+        </form>
+    '''
+
+@app.route('/convert', methods=['POST'])
+def convert():
+    try:
+        temp_c = float(request.form['temp_c'])
+        temp_f = (temp_c * 9/5) + 32
+        return f"{temp_c}°C = {temp_f}°F"
+    except ValueError:
+        return "Invalid input. Please enter a numeric value."
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+-------------------------------------------------------------------------
+
+4. Calculator Application
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return '''
+        <form action="/calculate" method="post">
+            Number 1: <input type="text" name="num1"><br>
+            Number 2: <input type="text" name="num2"><br>
+            Operation (+, -, *, /): <input type="text" name="operation"><br>
+            <input type="submit" value="Calculate">
+        </form>
+    '''
+
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    try:
+        num1 = float(request.form['num1'])
+        num2 = float(request.form['num2'])
+        operation = request.form['operation']
+        if operation == '+':
+            result = num1 + num2
+        elif operation == '-':
+            result = num1 - num2
+        elif operation == '*':
+            result = num1 * num2
+        elif operation == '/':
+            if num2 == 0:
+                return "Division by zero is not allowed."
+            result = num1 / num2
+        else:
+            return "Invalid operation. Use +, -, *, or /."
+        return f"Result: {result}"
+    except ValueError:
+        return "Invalid input. Please enter numeric values."
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+-----------------------------------------------------------------------------------
+5. CGPA Calculator Application
+
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return '''
+        <form action="/calculate" method="post">
+            Grades (comma-separated): <input type="text" name="grades"><br>
+            <input type="submit" value="Calculate CGPA">
+        </form>
+    '''
+
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    try:
+        grades = list(map(float, request.form['grades'].split(',')))
+        if not grades:
+            return "Please enter at least one grade."
+        cgpa = sum(grades) / len(grades)
+        return f"CGPA: {cgpa:.2f}"
+    except ValueError:
+        return "Invalid input. Please enter numeric grades separated by commas."
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+
+Without flask 
+
+1. "Hello World" Application
+
+3. Temperature Converter Application:
+def convert_temperature():
+    print("Choose the input unit (C for Celsius, F for Fahrenheit, K for Kelvin):")
+    unit_from = input().strip().upper()
+    print("Enter the temperature value:")
+    temp = float(input())
+
+    if unit_from == "C":
+        print(f"{temp} °C = {temp * 9/5 + 32} °F = {temp + 273.15} K")
+    elif unit_from == "F":
+        print(f"{temp} °F = {(temp - 32) * 5/9} °C = {(temp - 32) * 5/9 + 273.15} K")
+    elif unit_from == "K":
+        print(f"{temp} K = {temp - 273.15} °C = {(temp - 273.15) * 9/5 + 32} °F")
+    else:
+        print("Invalid unit.")
+
+convert_temperature()
+
+4. Simple Calculator Application:
+  def simple_calculator():
+    print("Select operation: \n1. Add \n2. Subtract \n3. Multiply \n4. Divide")
+    choice = input("Enter choice (1/2/3/4): ")
+
+    num1 = float(input("Enter first number: "))
+    num2 = float(input("Enter second number: "))
+
+    if choice == '1':
+        print(f"{num1} + {num2} = {num1 + num2}")
+    elif choice == '2':
+        print(f"{num1} - {num2} = {num1 - num2}")
+    elif choice == '3':
+        print(f"{num1} * {num2} = {num1 * num2}")
+    elif choice == '4':
+        if num2 != 0:
+            print(f"{num1} / {num2} = {num1 / num2}")
+        else:
+            print("Error! Division by zero.")
+    else:
+        print("Invalid input.")
+
+simple_calculator()
+
+5. CGPA Calculator Application:
+def cgpa_calculator():
+    num_subjects = int(input("Enter the number of subjects: "))
+    
+    total_credits = 0
+    weighted_grade_points = 0
+    
+    for i in range(num_subjects):
+        print(f"Subject {i+1}:")
+        credits = float(input("Enter the number of credits: "))
+        grade_point = float(input("Enter the grade point (on a scale of 10): "))
+        
+        total_credits += credits
+        weighted_grade_points += grade_point * credits
+    
+    cgpa = weighted_grade_points / total_credits
+    print(f"Your CGPA is: {cgpa:.2f}")
+
+cgpa_calculator()
+
+
